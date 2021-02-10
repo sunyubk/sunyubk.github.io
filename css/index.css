@@ -2483,6 +2483,7 @@ html.nightmode {
   text-align: center;
 }
 .paginator-inner {
+  margin: 0 auto;
   border-radius: 5px;
   padding: 0.8em 0;
   background-color: var(--color-gray-150);
