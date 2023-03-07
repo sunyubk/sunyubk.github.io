@@ -1,0 +1,358 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="renderer" content="webkit"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.0.0-rc.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.0.0-rc.0" type="image/png" sizes="32x32"><meta name="description" content="一、什么要进行负载均衡       负载均衡就是为避免所有请求都打到一个服务器上面，导致服务器异常儿产生的服务不可问题。 下面我们就来自定负载均衡的策略，我这边实现的只有一下三种，但是实际上根据业务需求的不同会产生各种均衡策略：  根据权重随机选择一个实例 优先选择同集群 优先选择同版本同集群的示例（金丝雀发布—实现同版本同集群优先负载均衡策略）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloudAlibaba-Ribbon负载均衡">
+<meta property="og:url" content="http://example.com/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.html">
+<meta property="og:site_name" content="孙宇的博客">
+<meta property="og:description" content="一、什么要进行负载均衡       负载均衡就是为避免所有请求都打到一个服务器上面，导致服务器异常儿产生的服务不可问题。 下面我们就来自定负载均衡的策略，我这边实现的只有一下三种，但是实际上根据业务需求的不同会产生各种均衡策略：  根据权重随机选择一个实例 优先选择同集群 优先选择同版本同集群的示例（金丝雀发布—实现同版本同集群优先负载均衡策略）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1.png">
+<meta property="article:published_time" content="2023-02-26T16:00:20.000Z">
+<meta property="article:modified_time" content="2023-03-05T08:05:55.836Z">
+<meta property="article:author" content="孙宇">
+<meta property="article:tag" content="Ribbon">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1.png"><meta name="keywords" content="孙宇, 孙宇的博客"><meta name="description" content=""><title>SpringCloudAlibaba-Ribbon负载均衡 | 孙宇的博客</title><link ref="canonical" href="http://example.com/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: {"switchPost":true},
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.2"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">孙宇的博客</div><div class="header-banner-info__subtitle">博客小白，正在学习中。如果有更好的意见欢迎反馈。</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">SpringCloudAlibaba-Ribbon负载均衡</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2023-02-27</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2023-03-05</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.7k</span></span></div></header><div class="post-body">
+        <h1 id="一、什么要进行负载均衡">
+          <a href="#一、什么要进行负载均衡" class="heading-link"><i class="fas fa-link"></i></a>一、什么要进行负载均衡</h1>
+      <p>负载均衡就是为避免所有请求都打到一个服务器上面，导致服务器异常儿产生的服务不可问题。</p>
+<p>下面我们就来自定负载均衡的策略，我这边实现的只有一下三种，但是实际上根据业务需求的不同会产生各种均衡策略：</p>
+<ul>
+<li>根据权重随机选择一个实例</li>
+<li>优先选择同集群</li>
+<li>优先选择同版本同集群的示例（金丝雀发布—实现同版本同集群优先负载均衡策略）</li>
+</ul>
+<span id="more"></span> 
+
+
+        <h1 id="二、自定义负载均衡策略">
+          <a href="#二、自定义负载均衡策略" class="heading-link"><i class="fas fa-link"></i></a>二、自定义负载均衡策略</h1>
+      <p>这里我先将我的目录放在这里，下面是各种实现</p>
+<p><img src="/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/1.png" alt="图片加载失败"></p>
+
+        <h3 id="第一步：自定义一个负载均衡的配置类">
+          <a href="#第一步：自定义一个负载均衡的配置类" class="heading-link"><i class="fas fa-link"></i></a>第一步：自定义一个负载均衡的配置类</h3>
+      <p>这里使用我们自定义的全局配置类</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sy.springcloud.config.ribbon;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sy.ribbon.GlobalRibbonConfig;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.ribbon.RibbonClients;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@RibbonClients(defaultConfiguration = GlobalRibbonConfig.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomeRibbonConfig</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="第二步：在我们的全局配置类中配置我们想要使用的自定义的负载均衡策略">
+          <a href="#第二步：在我们的全局配置类中配置我们想要使用的自定义的负载均衡策略" class="heading-link"><i class="fas fa-link"></i></a>第二步：在我们的全局配置类中配置我们想要使用的自定义的负载均衡策略</h3>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sy.ribbon;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.IRule;</span><br><span class="line"><span class="keyword">import</span> com.sy.springcloud.config.ribbon.rule.TheSameClusterPriorityRule;</span><br><span class="line"><span class="keyword">import</span> com.sy.springcloud.config.ribbon.rule.TheSameClusterPriorityWithVersionRule;</span><br><span class="line"><span class="keyword">import</span> com.sy.springcloud.config.ribbon.rule.WeightedBalancerRule;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 全局负载均衡配</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalRibbonConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> IRule <span class="title function_">iRule</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 实现带有权重的负载均衡策略</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">WeightedBalancerRule</span>();</span><br><span class="line">        <span class="comment">// 实现同集群优先的负载均衡策略</span></span><br><span class="line">        <span class="comment">//return new TheSameClusterPriorityRule();</span></span><br><span class="line">        <span class="comment">// 实现同版本同集群优先的负载均衡策略（必须同版本，可以不同集群）</span></span><br><span class="line">        <span class="comment">//return new TheSameClusterPriorityWithVersionRule();</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="第三步：自定义我们的负载均衡策略">
+          <a href="#第三步：自定义我们的负载均衡策略" class="heading-link"><i class="fas fa-link"></i></a>第三步：自定义我们的负载均衡策略</h3>
+      
+        <h4 id="第1种类型：根据权重随机选择一个实例">
+          <a href="#第1种类型：根据权重随机选择一个实例" class="heading-link"><i class="fas fa-link"></i></a>第1种类型：根据权重随机选择一个实例</h4>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sy.springcloud.config.ribbon.rule;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.NacosServiceManager;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.ribbon.NacosServer;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.NamingService;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.pojo.Instance;</span><br><span class="line"><span class="keyword">import</span> com.netflix.client.config.IClientConfig;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.AbstractLoadBalancerRule;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.BaseLoadBalancer;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.Server;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据权重随机选择一个实例</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WeightedBalancerRule</span> <span class="keyword">extends</span> <span class="title class_">AbstractLoadBalancerRule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> NacosServiceManager nacosServiceManager;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initWithNiwsConfig</span><span class="params">(IClientConfig iClientConfig)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Server <span class="title function_">choose</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            log.info(<span class="string">&quot;key:&#123;&#125;&quot;</span>,o);</span><br><span class="line">            <span class="comment">// 调用父类方法，获得当前使用的均衡负载器</span></span><br><span class="line">            <span class="type">BaseLoadBalancer</span> <span class="variable">loadBalancer</span> <span class="operator">=</span> (BaseLoadBalancer) <span class="built_in">this</span>.getLoadBalancer();</span><br><span class="line">            <span class="comment">// 获取目标服务的名称</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">serviceName</span> <span class="operator">=</span> loadBalancer.getName();</span><br><span class="line">            <span class="comment">// 获取nacos的服务发现的API</span></span><br><span class="line">            <span class="type">NamingService</span> <span class="variable">namingService</span> <span class="operator">=</span> nacosServiceManager.getNamingService();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 根据名称获取服务发现实例，在selectOneHealthyInstance中，nacos实现了权重的负载均衡算法</span></span><br><span class="line">            <span class="type">Instance</span> <span class="variable">instance</span> <span class="operator">=</span> namingService.selectOneHealthyInstance(serviceName);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NacosServer</span>(instance);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="第2种类型：优先选择同集群">
+          <a href="#第2种类型：优先选择同集群" class="heading-link"><i class="fas fa-link"></i></a>第2种类型：优先选择同集群</h4>
+      <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sy.springcloud.config.ribbon.rule;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.NacosDiscoveryProperties;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.NacosServiceManager;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.ribbon.NacosServer;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.NamingService;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.pojo.Instance;</span><br><span class="line"><span class="keyword">import</span> com.netflix.client.config.IClientConfig;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.AbstractLoadBalancerRule;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.BaseLoadBalancer;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.Server;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同集群优先调用--负载均衡策略</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TheSameClusterPriorityRule</span> <span class="keyword">extends</span> <span class="title class_">AbstractLoadBalancerRule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> NacosServiceManager nacosServiceManager;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> NacosDiscoveryProperties nacosDiscoveryProperties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initWithNiwsConfig</span><span class="params">(IClientConfig iClientConfig)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Server <span class="title function_">choose</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取服务所在的集群名称</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">clusterName</span> <span class="operator">=</span> nacosDiscoveryProperties.getClusterName();</span><br><span class="line">            log.info(<span class="string">&quot;当前集群名称：&#123;&#125;&quot;</span>, clusterName);</span><br><span class="line">            <span class="comment">// 获取当前的负载均衡器</span></span><br><span class="line">            <span class="type">BaseLoadBalancer</span> <span class="variable">loadBalancer</span> <span class="operator">=</span> (BaseLoadBalancer) <span class="built_in">this</span>.getLoadBalancer();</span><br><span class="line">            <span class="comment">// 获取目标服务的实例名称</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">serviceName</span> <span class="operator">=</span> loadBalancer.getName();</span><br><span class="line">            log.info(<span class="string">&quot;目标服务的实例名称：&#123;&#125;&quot;</span>, serviceName);</span><br><span class="line">            <span class="comment">// 获取nacos服务注册发现的api</span></span><br><span class="line">            <span class="type">NamingService</span> <span class="variable">namingService</span> <span class="operator">=</span> nacosServiceManager.getNamingService();</span><br><span class="line">            <span class="comment">// 通过namimgService获取当前注册的所有实例</span></span><br><span class="line">            List&lt;Instance&gt; allInstance = namingService.getAllInstances(serviceName);</span><br><span class="line"></span><br><span class="line">            List&lt;Instance&gt; sameClusterInstanceList;</span><br><span class="line">            <span class="comment">// 过滤筛选同集群下的服务实例</span></span><br><span class="line">            sameClusterInstanceList = allInstance.stream().filter(instance -&gt; instance.getClusterName().equals(clusterName)).collect(Collectors.toList());</span><br><span class="line">            log.info(<span class="string">&quot;统计群的服务实例：&#123;&#125;&quot;</span>, sameClusterInstanceList);</span><br><span class="line">            Instance toBeChooseInstance;</span><br><span class="line">            <span class="comment">// 选择合适的服务实例</span></span><br><span class="line">            <span class="keyword">if</span> (sameClusterInstanceList == <span class="literal">null</span> || sameClusterInstanceList.size() == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 从其他集群中随机选择一个服务实例</span></span><br><span class="line">                toBeChooseInstance = WeightedBalancer.chooseInstanceByRandomWeight(allInstance);</span><br><span class="line">                log.info(<span class="string">&quot;跨集群调用---&#123;&#125;&quot;</span>, toBeChooseInstance.getPort());</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 从本集群中随机选择一个服务实例</span></span><br><span class="line">                toBeChooseInstance = WeightedBalancer.chooseInstanceByRandomWeight(sameClusterInstanceList);</span><br><span class="line">                log.info(<span class="string">&quot;同集群调用---&#123;&#125;&quot;</span>, toBeChooseInstance.getPort());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NacosServer</span>(toBeChooseInstance);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+<p>这里以及下一种类型会用到一个类，这个类的作用是根据在符合的实例中随机选择一个</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sy.springcloud.config.ribbon.rule;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.pojo.Instance;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.client.naming.core.Balancer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据权重随机选择一个实例</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WeightedBalancer</span> <span class="keyword">extends</span> <span class="title class_">Balancer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Instance <span class="title function_">chooseInstanceByRandomWeight</span><span class="params">(List&lt;Instance&gt; instanceList)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> getHostByRandomWeight(instanceList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h4 id="第3种类型：同版本同集群优先择负载均衡策略">
+          <a href="#第3种类型：同版本同集群优先择负载均衡策略" class="heading-link"><i class="fas fa-link"></i></a>第3种类型：同版本同集群优先择负载均衡策略</h4>
+      <p>这个策略也可以叫做金丝雀发布策略：灰度测试的场景下可以使用</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sy.springcloud.config.ribbon.rule;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.NacosDiscoveryProperties;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.NacosServiceManager;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.cloud.nacos.ribbon.NacosServer;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.NamingService;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.nacos.api.naming.pojo.Instance;</span><br><span class="line"><span class="keyword">import</span> com.netflix.client.config.IClientConfig;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.AbstractLoadBalancerRule;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.BaseLoadBalancer;</span><br><span class="line"><span class="keyword">import</span> com.netflix.loadbalancer.Server;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collectors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同版本同集群优先调用--负载均衡策略（金丝雀/灰度测试）</span></span><br><span class="line"><span class="comment"> * 1、优先同版本同集群的服务调用</span></span><br><span class="line"><span class="comment"> * 2、没有 条件1的，同版本跨集群的服务调用</span></span><br><span class="line"><span class="comment"> * 3、不可以进行不同版本的服务调用</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TheSameClusterPriorityWithVersionRule</span> <span class="keyword">extends</span> <span class="title class_">AbstractLoadBalancerRule</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> NacosServiceManager nacosServiceManager;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> NacosDiscoveryProperties nacosDiscoveryProperties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initWithNiwsConfig</span><span class="params">(IClientConfig iClientConfig)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Server <span class="title function_">choose</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取服务所在的集群名称</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">clusterName</span> <span class="operator">=</span> nacosDiscoveryProperties.getClusterName();</span><br><span class="line">            <span class="comment">// 获取服务的版本号</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">version</span> <span class="operator">=</span> nacosDiscoveryProperties.getMetadata().get(<span class="string">&quot;version&quot;</span>);</span><br><span class="line">            log.info(<span class="string">&quot;当前集群名称：&#123;&#125;,服务版本号：&#123;&#125;&quot;</span>, clusterName, version);</span><br><span class="line">            <span class="comment">// 获取当前的负载均衡器</span></span><br><span class="line">            <span class="type">BaseLoadBalancer</span> <span class="variable">loadBalancer</span> <span class="operator">=</span> (BaseLoadBalancer) <span class="built_in">this</span>.getLoadBalancer();</span><br><span class="line">            <span class="comment">// 获取目标服务的实例名称</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">serviceName</span> <span class="operator">=</span> loadBalancer.getName();</span><br><span class="line">            log.info(<span class="string">&quot;目标服务的实例名称：&#123;&#125;&quot;</span>, serviceName);</span><br><span class="line">            <span class="comment">// 获取nacos服务注册发现的api</span></span><br><span class="line">            <span class="type">NamingService</span> <span class="variable">namingService</span> <span class="operator">=</span> nacosServiceManager.getNamingService();</span><br><span class="line">            <span class="comment">// 通过namimgService获取当前注册的所有实例</span></span><br><span class="line">            List&lt;Instance&gt; allInstance = namingService.getAllInstances(serviceName);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 过滤筛选同版本的服务</span></span><br><span class="line">            List&lt;Instance&gt; sameVersionInstance;</span><br><span class="line">            sameVersionInstance = allInstance.stream().filter(instance -&gt; instance.getMetadata().get(<span class="string">&quot;version&quot;</span>).equals(version)).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 过滤筛选同版本下的同集群的服务实例</span></span><br><span class="line">            List&lt;Instance&gt; sameClusterInstanceList;</span><br><span class="line">            sameClusterInstanceList = sameVersionInstance.stream().filter(instance -&gt; instance.getClusterName().equals(clusterName)).collect(Collectors.toList());</span><br><span class="line">            log.info(<span class="string">&quot;统计群的服务实例：&#123;&#125;&quot;</span>, sameClusterInstanceList);</span><br><span class="line">            Instance toBeChooseInstance;</span><br><span class="line">            <span class="comment">// 选择合适的服务实例（必须同版本）</span></span><br><span class="line">            <span class="keyword">if</span> (sameClusterInstanceList == <span class="literal">null</span> || sameClusterInstanceList.size() == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 从所有同版本的服务实例中选一个</span></span><br><span class="line">                toBeChooseInstance = WeightedBalancer.chooseInstanceByRandomWeight(sameVersionInstance);</span><br><span class="line">                log.info(<span class="string">&quot;跨集群调用---&#123;&#125;&quot;</span>, toBeChooseInstance.getPort());</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 从本集群中随机选择一个服务实例</span></span><br><span class="line">                toBeChooseInstance = WeightedBalancer.chooseInstanceByRandomWeight(sameClusterInstanceList);</span><br><span class="line">                log.info(<span class="string">&quot;同集群调用---&#123;&#125;&quot;</span>, toBeChooseInstance.getPort());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">NacosServer</span>(toBeChooseInstance);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+<p>三种配置到这里就完事了，接下来就可以在Nacos中配置权重与版本号进行测试了</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://example.com">孙宇</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://example.com/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">http://example.com/2023/02/27/SpringCloudAlibaba-Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://example.com/tags/Ribbon/">Ribbon</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2023/03/05/SpringCloudAlibaba-OpenFegin%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E4%BD%BF%E7%94%A8/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">SpringCloudAlibaba-OpenFeign的引入及使用</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2023/02/22/Docker%E9%83%A8%E7%BD%B2Nginx/"><span class="paginator-prev__text">Docker部署Nginx</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">
+          一、什么要进行负载均衡</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-text">
+          二、自定义负载均衡策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="toc-text">
+          第一步：自定义一个负载均衡的配置类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%9C%A8%E6%88%91%E4%BB%AC%E7%9A%84%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE%E7%B1%BB%E4%B8%AD%E9%85%8D%E7%BD%AE%E6%88%91%E4%BB%AC%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-text">
+          第二步：在我们的全局配置类中配置我们想要使用的自定义的负载均衡策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%88%91%E4%BB%AC%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-text">
+          第三步：自定义我们的负载均衡策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC1%E7%A7%8D%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%B9%E6%8D%AE%E6%9D%83%E9%87%8D%E9%9A%8F%E6%9C%BA%E9%80%89%E6%8B%A9%E4%B8%80%E4%B8%AA%E5%AE%9E%E4%BE%8B"><span class="toc-text">
+          第1种类型：根据权重随机选择一个实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC2%E7%A7%8D%E7%B1%BB%E5%9E%8B%EF%BC%9A%E4%BC%98%E5%85%88%E9%80%89%E6%8B%A9%E5%90%8C%E9%9B%86%E7%BE%A4"><span class="toc-text">
+          第2种类型：优先选择同集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC3%E7%A7%8D%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%90%8C%E7%89%88%E6%9C%AC%E5%90%8C%E9%9B%86%E7%BE%A4%E4%BC%98%E5%85%88%E6%8B%A9%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-text">
+          第3种类型：同版本同集群优先择负载均衡策略</span></a></li></ol></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/img_head.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">悠闲时光</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>孙宇</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.2</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.0-rc.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js" color="1,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '6ca09daabba4f7147cee',
+    clientSecret: 'ded593f333a1a88bfb1a5e39e8227c3afc71e08f',
+    repo: 'sunyubk.github.io',
+    owner: 'sunyubk',
+    admin: ['sunyubk'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body></html>

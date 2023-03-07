@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="renderer" content="webkit"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.0.0-rc.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.0.0-rc.0" type="image/png" sizes="32x32"><meta name="description" content="2022-11-25-1（三方支付）                           1、i++是否是线程安全11">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试记录、问题">
+<meta property="og:url" content="http://example.com/2022/11/25/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E3%80%81%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="孙宇的博客">
+<meta property="og:description" content="2022-11-25-1（三方支付）                           1、i++是否是线程安全11">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-25T07:44:59.000Z">
+<meta property="article:modified_time" content="2023-02-26T15:49:32.759Z">
+<meta property="article:author" content="孙宇">
+<meta property="article:tag" content="Java 面试">
+<meta name="twitter:card" content="summary"><meta name="keywords" content="孙宇, 孙宇的博客"><meta name="description" content=""><title>面试记录、问题 | 孙宇的博客</title><link ref="canonical" href="http://example.com/2022/11/25/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E3%80%81%E9%97%AE%E9%A2%98/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: {"switchPost":true},
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.2"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">孙宇的博客</div><div class="header-banner-info__subtitle">博客小白，正在学习中。如果有更好的意见欢迎反馈。</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">面试记录、问题</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2023-02-26</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.4k</span></span></div></header><div class="post-body">
+        <h1 id="2022-11-25-1（三方支付）">
+          <a href="#2022-11-25-1（三方支付）" class="heading-link"><i class="fas fa-link"></i></a>2022-11-25-1（三方支付）</h1>
+      
+        <h2 id="1、i-是否是线程安全11">
+          <a href="#1、i-是否是线程安全11" class="heading-link"><i class="fas fa-link"></i></a>1、i++是否是线程安全11</h2>
+      <span id="more"></span>
+
+<p>如果是<font color="red">全局变量</font>，则 <code>i++</code> 不是线程安全的。因为java在处理 <code>i++</code> 的时候是分步操作的，编译后相当于 <code>i= i+1</code>。这样的话如果第一条线程执行进来，但是还没有执行到 <code>i++</code> 的时候，第二条线程进来了，这个时候 i 的值还是原来的值。所以是线程不安全的。</p>
+<p>解决方案：使用 <code>synchronization</code> 或者使用 <code>AtomicInteger</code>.</p>
+
+        <h2 id="2、线程不安全会有什么问题">
+          <a href="#2、线程不安全会有什么问题" class="heading-link"><i class="fas fa-link"></i></a>2、线程不安全会有什么问题</h2>
+      <p>会造成数据紊乱，导致业务数据错误等。例如抢票，如果线程不安全则会发生票数错误，多个人抢了票，但是剩余票数只减1，这种问题。</p>
+
+        <h2 id="3、线程池创建方式及主要参数">
+          <a href="#3、线程池创建方式及主要参数" class="heading-link"><i class="fas fa-link"></i></a>3、线程池创建方式及主要参数</h2>
+      <p>线程池的创建主要有两种：</p>
+<ol>
+<li><p>通过Executors创建，分别可以创建：</p>
+<ul>
+<li>FixedThreadPool(5) 固定大小的线程池，可以指定并发数量。超过则在队列中等待。</li>
+<li>CachedThreadPool() 可缓存线程池，若线程数超过处理所需，则会在缓存一段时间后被回收。如果线程不够则会创建新的线程。</li>
+<li>SingleThreadPool() 创建单个线程的线程池，保证了先进先出的顺序。</li>
+<li>ScheduledThreadPool() 可以执行延时任务的线程池</li>
+<li>SingleThreadScheduledExecutor() 创建一个单线程的可执行延时任务的线程池</li>
+<li>WorkStealingPool() 创建一个抢占式执行的线程池（任务执行顺序不确定）</li>
+</ul>
+</li>
+<li><p>通过 ThreadPoolExecutor 创建，也是阿里规范中推荐使用的方式，因为他可以明确线程池的规则，避免了资源耗尽等问题</p>
+<p>主要参数：</p>
+<ul>
+<li><p>corePoolSize：核心线程数，一直保持存活的线程数。当线程数小于核心线程数的时候，即使有空闲线程，来了新任务也会创建新的线程处理。</p>
+</li>
+<li><p>maxPoolSize：最大线程数。当线程数 &gt;= 核心线程数，且队列已满，则会创建新的线程处理。当线程数 = 最大线程数的时候，则会拒绝任务并抛出异常，这个可以根据拒绝策略决定处理方式。</p>
+</li>
+<li><p>keepAliveTime：线程空闲时间，当线程的空闲时间达到设定值的时候会退出，直到线程数量 = 核心线程数为止。如果设置了allowCoreThreadTimeout = true，则核心线程也会超时退出。</p>
+</li>
+<li><p>TimeUnit：时间单位</p>
+</li>
+<li><p>BlockQueue：任务队列，可指定容量，当核心线程数达到最大的是后，再来新的任务则会放在这个队列中等待</p>
+</li>
+<li><p>ThreadFactory：线程工厂</p>
+</li>
+<li><p>reJectedExecutionHandler：任务拒绝处理器。</p>
+<p>两种情况会拒绝处理任务：</p>
+<ul>
+<li>当线程数达到最大线程数，且队列已满，怎会拒绝新任务</li>
+<li>当线程池的 shutdown() 被调用的时候，会等待队列中的任务执行完毕，再shutdown。如果在调用 shutdown 和线程池真正shutdwon之间进来新任务，则会拒绝。</li>
+</ul>
+<p>ThreadPoolExecutor有几个自己的内部实现来处理：</p>
+<ul>
+<li>AbortPolicy：默认值，丢弃任务，抛运行时异常</li>
+<li>CallerRunsPolicy：创建新线程执行任务</li>
+<li>DiscardPolicy：忽视，什么都不管</li>
+<li>DiscarOldestPolicy：从队列中踢出最先进入（最后一个执行）的任务</li>
+<li>还可以实现ReJectedExecutionHandler来自定义拒绝策略。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+        <h2 id="4、如何解决sql慢查询">
+          <a href="#4、如何解决sql慢查询" class="heading-link"><i class="fas fa-link"></i></a>4、如何解决sql慢查询</h2>
+      <ol>
+<li>数据库创建是否适合，例如：根据表涉及的业务选择不同的存储引擎，数据量的大小考虑是否需要分库分表</li>
+<li>主键是否自增类型，否则可能会引发页面分裂和记录迁移</li>
+<li>是否过多的表关联查询，根据阿里规范来说是建议不要超过三张表的关联查询</li>
+<li>创建索引，这里并不是说创建的索引越多越好，也要考虑到一下几种情况<ul>
+<li>表涉及的业务是否会频繁发生变化，毕竟数据修改是要涉及到构建索引的</li>
+<li>创建的索引是否命中</li>
+<li>尽量使用联合索引，要考虑最左匹配原则</li>
+<li>索引失效<ul>
+<li>最左匹配原则为满足</li>
+<li>计算、函数、类型转换都会导致索引失效</li>
+<li>不等于也会导致索引失效</li>
+<li>is null 可以使用索引，但是is not null 就无法使用索引</li>
+<li>like 通配符以左模糊查询会导致索引失效</li>
+<li>or 关键字前后只要存咋非索引的列都会导致索引失效 </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>考虑全表扫描问题，如果只是查询一条数据的话就可以加上 <code>limit 1</code> 使查询到就立即返回，不进行全表扫描</li>
+<li>使用代码来进行处理，必要的情况下可以多次查询，之后在处理数据</li>
+</ol>
+
+        <h2 id="5、什么情况下会发生锁表问题">
+          <a href="#5、什么情况下会发生锁表问题" class="heading-link"><i class="fas fa-link"></i></a>5、什么情况下会发生锁表问题</h2>
+      <p>锁表主要发生在 insert、update、delete中</p>
+<ol>
+<li>A程序执行了对tabbleA的insert，还没有commite时，B程序也对tableA进行了insert，这样就会发生锁表的问题</li>
+<li>锁表常发生在并发的情况而不是并行，并行时，一个线程操作数据库，另一个线程是不能操作数据库的，这里是cpu的 i/o 分配原则</li>
+</ol>
+<p>怎么减少锁表的发生概率：</p>
+<p>减少insert、update、delete语句的执行到commite之间的时间，具体说就是批量执行尽量改成单个执行</p>
+
+        <h2 id="6、频繁FullGC会产生什么问题，怎么引起的，怎么解决">
+          <a href="#6、频繁FullGC会产生什么问题，怎么引起的，怎么解决" class="heading-link"><i class="fas fa-link"></i></a>6、频繁FullGC会产生什么问题，怎么引起的，怎么解决</h2>
+      <p>1. </p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://example.com">孙宇</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://example.com/2022/11/25/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E3%80%81%E9%97%AE%E9%A2%98/">http://example.com/2022/11/25/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E3%80%81%E9%97%AE%E9%A2%98/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://example.com/tags/Java-%E9%9D%A2%E8%AF%95/">Java 面试</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2023/02/21/Docker%E9%83%A8%E7%BD%B2Nacos/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Docker部署Nacos</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2021/08/26/Docker%E5%AD%A6%E4%B9%A0/"><span class="paginator-prev__text">Docker学习</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2022-11-25-1%EF%BC%88%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98%EF%BC%89"><span class="toc-text">
+          2022-11-25-1（三方支付）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81i-%E6%98%AF%E5%90%A6%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A811"><span class="toc-text">
+          1、i++是否是线程安全11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E4%BC%9A%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">
+          2、线程不安全会有什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F%E5%8F%8A%E4%B8%BB%E8%A6%81%E5%8F%82%E6%95%B0"><span class="toc-text">
+          3、线程池创建方式及主要参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3sql%E6%85%A2%E6%9F%A5%E8%AF%A2"><span class="toc-text">
+          4、如何解决sql慢查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%8F%91%E7%94%9F%E9%94%81%E8%A1%A8%E9%97%AE%E9%A2%98"><span class="toc-text">
+          5、什么情况下会发生锁表问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E9%A2%91%E7%B9%81FullGC%E4%BC%9A%E4%BA%A7%E7%94%9F%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%8C%E6%80%8E%E4%B9%88%E5%BC%95%E8%B5%B7%E7%9A%84%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3"><span class="toc-text">
+          6、频繁FullGC会产生什么问题，怎么引起的，怎么解决</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/img_head.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">悠闲时光</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>孙宇</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.2</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.0-rc.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js" color="1,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '6ca09daabba4f7147cee',
+    clientSecret: 'ded593f333a1a88bfb1a5e39e8227c3afc71e08f',
+    repo: 'sunyubk.github.io',
+    owner: 'sunyubk',
+    admin: ['sunyubk'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body></html>

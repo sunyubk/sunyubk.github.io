@@ -1,0 +1,877 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="renderer" content="webkit"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.0.0-rc.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.0.0-rc.0" type="image/png" sizes="32x32"><meta name="description" content="一、Java基础                           1.JDK 和 JRE 有什么区别？        JDK：java开发工具包，提供了java的开发环境和运行环境。 JRE：java的运行环境，为java的运行提供了所需环境。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 面试题">
+<meta property="og:url" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="孙宇的博客">
+<meta property="og:description" content="一、Java基础                           1.JDK 和 JRE 有什么区别？        JDK：java开发工具包，提供了java的开发环境和运行环境。 JRE：java的运行环境，为java的运行提供了所需环境。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/1.jpg">
+<meta property="og:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_1-1.png">
+<meta property="og:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_1-2.png">
+<meta property="og:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_2-1.1.png">
+<meta property="og:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_2-1.2.png">
+<meta property="og:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_2-2.png">
+<meta property="article:published_time" content="2020-07-16T04:28:18.000Z">
+<meta property="article:modified_time" content="2023-02-21T18:55:17.235Z">
+<meta property="article:author" content="孙宇">
+<meta property="article:tag" content="Java 面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/1.jpg"><meta name="keywords" content="孙宇, 孙宇的博客"><meta name="description" content=""><title>Java 面试题 | 孙宇的博客</title><link ref="canonical" href="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: {"switchPost":true},
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.2"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">孙宇的博客</div><div class="header-banner-info__subtitle">博客小白，正在学习中。如果有更好的意见欢迎反馈。</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Java 面试题</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-07-16</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2023-02-22</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">4k</span></span></div></header><div class="post-body">
+        <h1 id="一、Java基础">
+          <a href="#一、Java基础" class="heading-link"><i class="fas fa-link"></i></a>一、Java基础</h1>
+      
+        <h2 id="1-JDK-和-JRE-有什么区别？">
+          <a href="#1-JDK-和-JRE-有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>1.JDK 和 JRE 有什么区别？</h2>
+      <ul>
+<li>JDK：java开发工具包，提供了java的开发环境和运行环境。</li>
+<li>JRE：java的运行环境，为java的运行提供了所需环境。</li>
+</ul>
+<span id="more"></span>
+
+
+        <h2 id="2-和-equals-的区别是什么？">
+          <a href="#2-和-equals-的区别是什么？" class="heading-link"><i class="fas fa-link"></i></a>2.== 和 equals 的区别是什么？</h2>
+      <p><strong>== 解读</strong></p>
+<p>对于基本类型和引用类型 == 的作用效果是不同的：</p>
+<ul>
+<li>基本类型：比较的是值是否相同。</li>
+<li>引用类型：比较的是引用是否相同。</li>
+</ul>
+<p>代码示例：</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">x</span> <span class="operator">=</span> <span class="string">&quot;string&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">y</span> <span class="operator">=</span> <span class="string">&quot;string&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">z</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;string&quot;</span>);</span><br><span class="line">System.out.println(x==y); <span class="comment">// true</span></span><br><span class="line">System.out.println(e==z); <span class="comment">// false</span></span><br><span class="line">System.out.println(x.equals(y)); <span class="comment">// true</span></span><br><span class="line">System.out.println(x.equals(z)); <span class="comment">//true</span></span><br></pre></td></tr></table></div></figure>
+
+<p>代码解读：</p>
+<ol>
+<li>因为 x 和 y 指向的是一个引用（指向的都是常量池中的string），所以 == 也是true。</li>
+<li>因为 new String()方法是重新开辟了内存空间所有 == 的结果为false。</li>
+<li>equals比较的一直都是值所以一直都是true。</li>
+</ol>
+<p><strong>equals解读</strong></p>
+<p>equals 本质上就是 ==，只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。</p>
+<p><strong>总结</strong>：== 对于基本类型是值比较，对于引用类型是引用比较；而 equals 默认情况下是引用比较。只是很多类重写了 equals 方法。比如 String、Integer 等把它重写成了值比较。</p>
+
+        <h2 id="3-两个对象的-hashCode-相同，则-equals-也一定为-true，对吗？">
+          <a href="#3-两个对象的-hashCode-相同，则-equals-也一定为-true，对吗？" class="heading-link"><i class="fas fa-link"></i></a>3.两个对象的 hashCode()相同，则 equals()也一定为 true，对吗？</h2>
+      <p>不对，两个对象的 hashCode()相同，equals()不一定true。</p>
+<p><strong>原因</strong>：在散列表中，hashCode()相等，即两个键值对的哈希值相等，然而哈希值相等，并不一定能得出键值对相等。</p>
+
+        <h2 id="4-final-在-java-中有什么作用？">
+          <a href="#4-final-在-java-中有什么作用？" class="heading-link"><i class="fas fa-link"></i></a>4.final 在 java 中有什么作用？</h2>
+      <ul>
+<li>final 修饰的类叫最终类，不能被继承。</li>
+<li>final 修饰的方法不能被重写。</li>
+<li>final 修饰的变量叫常量，常量必须初始化，初始化之后值就不能被修改。</li>
+</ul>
+
+        <h2 id="5-java-中的-Math-round-1-5-等于多少？">
+          <a href="#5-java-中的-Math-round-1-5-等于多少？" class="heading-link"><i class="fas fa-link"></i></a>5.java 中的 Math.round(-1.5) 等于多少？</h2>
+      <p>等于 -1，Math.round() 就是加 0.5 并向下取整。</p>
+
+        <h2 id="6-String-属于基础的数据类型吗？">
+          <a href="#6-String-属于基础的数据类型吗？" class="heading-link"><i class="fas fa-link"></i></a>6.String 属于基础的数据类型吗？</h2>
+      <p>String 不属于基础类型，而属于对象。</p>
+<p>基础类型有 8 中：byte、short、int、long、float、double、boolean、char。</p>
+
+        <h2 id="7-java-中操作字符串都有哪些类？它们之间有什么区别？">
+          <a href="#7-java-中操作字符串都有哪些类？它们之间有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>7.java 中操作字符串都有哪些类？它们之间有什么区别？</h2>
+      <p>操作字符串的类有：String、StringBuffer、StringBuilder</p>
+<p><strong>区别</strong>：</p>
+<ol>
+<li>String 声明的是不可变对象，每次操作都会生成新的 String 对象，然后将指针指向新的 String 对象，而 StringBuffer、StringBuilder 可以再原有对象的基础上进行操作。</li>
+<li>StringBuffer 是线程安全的，StringBuilder 相反。</li>
+</ol>
+
+        <h2 id="8-String-str-“i”-与-String-str-new-String-“i”-一样吗？">
+          <a href="#8-String-str-“i”-与-String-str-new-String-“i”-一样吗？" class="heading-link"><i class="fas fa-link"></i></a>8.String str = “i” 与 String str = new String(“i”) 一样吗？</h2>
+      <p>不一样。</p>
+<p><strong>原因</strong>：String str = “i” 是被 java 虚拟机分配到常量池中，而 String str = new String(“i”) 是被分配到堆内存中。</p>
+
+        <h2 id="9-如何将字符串反转">
+          <a href="#9-如何将字符串反转" class="heading-link"><i class="fas fa-link"></i></a>9.如何将字符串反转</h2>
+      <ol>
+<li>使用 StringBuffer 或者StringBuilder 的 reverse() 方法。</li>
+</ol>
+<p><strong>示例代码</strong>：</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line"><span class="type">StringBuffer</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(str);</span><br><span class="line"><span class="type">StringBuffer</span> <span class="variable">res</span> <span class="operator">=</span> sb.reverse();</span><br><span class="line">str = res.toString();</span><br></pre></td></tr></table></div></figure>
+
+<ol start="2">
+<li>使用 String 的 charAt() 方法，将字符串从后向前取出，存入到 StringBuffer 或者 StringBuilder 中，再转为 String。</li>
+</ol>
+<p><strong>示例代码</strong>：</p>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line"><span class="type">StringBuffer</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> str.length()-<span class="number">1</span>;x &gt;= <span class="number">0</span>;x--)&#123;</span><br><span class="line">    sb.append(str.charAt(x));</span><br><span class="line">&#125;</span><br><span class="line">str = sb.toString();</span><br></pre></td></tr></table></div></figure>
+
+
+        <h2 id="10-String类的常用方法都有哪些？">
+          <a href="#10-String类的常用方法都有哪些？" class="heading-link"><i class="fas fa-link"></i></a>10.String类的常用方法都有哪些？</h2>
+      <ul>
+<li>indeOf()    返回指定字符的索</li>
+<li>charAt()    返回指定索引的字符</li>
+<li>replace()    字符串替换</li>
+<li>trim()    去除两端的空白</li>
+<li>split()    分割字符串，返回一个分割后的字符串数组</li>
+<li>getBytes()    返回字符串的byte类型数组</li>
+<li>substring()    截取字符串</li>
+<li>length()    返回字符串长度</li>
+<li>equals()    比较字符串</li>
+<li>toLowerCase()    将字符串转为小写字母</li>
+<li>toUpperCase()    将字符串转为大写字母</li>
+</ul>
+
+        <h2 id="11-什么是抽象？什么是多态？">
+          <a href="#11-什么是抽象？什么是多态？" class="heading-link"><i class="fas fa-link"></i></a>11.什么是抽象？什么是多态？</h2>
+      <p><strong>抽象</strong>：抽象是对具体对象进行提炼，提取对象的同类型的 共性特征 的过程</p>
+<p><strong>多态</strong>：多态就是多个对象对一个行为的不同响应/多态  是 对象本身具备的不同状态</p>
+<p><strong>自我感觉 “抽象” 和 “多态” 很像</strong></p>
+
+        <h2 id="12-抽象类必须有抽象方法吗？">
+          <a href="#12-抽象类必须有抽象方法吗？" class="heading-link"><i class="fas fa-link"></i></a>12.抽象类必须有抽象方法吗？</h2>
+      <p>不是的，抽象类可以没有抽象方法</p>
+
+        <h2 id="13-普通类和抽象类有什么区别？">
+          <a href="#13-普通类和抽象类有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>13.普通类和抽象类有什么区别？</h2>
+      <ol>
+<li>普通类不能有抽象方法，抽象类可以有抽象方法。</li>
+<li>普通类可以直接实例化，抽象类不能直接实例化。</li>
+</ol>
+
+        <h2 id="14-抽象类能使用-final-修饰吗？">
+          <a href="#14-抽象类能使用-final-修饰吗？" class="heading-link"><i class="fas fa-link"></i></a>14.抽象类能使用 final 修饰吗？</h2>
+      <p>不能，final 修饰的类不可被继承，而抽象类就是用来继承的。</p>
+
+        <h2 id="15-接口和抽象类有什么区别？">
+          <a href="#15-接口和抽象类有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>15.接口和抽象类有什么区别？</h2>
+      <ul>
+<li>实现：接口是由 implements 来实现的，抽象类是由 extends 继承的。</li>
+<li>构造方法：接口没有构造方法，抽象类有构造方法。</li>
+<li>实现数量：类可以实现多个接口，但是只能继承一个抽象类</li>
+</ul>
+<p><strong>个人理解</strong>：抽象类就是实现多态的一种方式</p>
+
+        <h2 id="16-Java中的-IO-流分为哪几种？">
+          <a href="#16-Java中的-IO-流分为哪几种？" class="heading-link"><i class="fas fa-link"></i></a>16.Java中的 IO 流分为哪几种？</h2>
+      <p><strong>按功能</strong>：输入流（input），输出流（output）</p>
+<p><strong>按类型</strong>：字节流，字符流</p>
+<p><strong>字节流：inputStream、outputStream；</strong></p>
+<p><strong>字符流：reader、writer；</strong></p>
+
+        <h2 id="17-BIO、NIO、AIO有什么区别？">
+          <a href="#17-BIO、NIO、AIO有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>17.BIO、NIO、AIO有什么区别？</h2>
+      <ul>
+<li><strong>BIO</strong>：Block IO 同步阻塞式 IO，就是我们平常使用的传统 IO，它的特点是模式简单使用方便，并发处理能力低。</li>
+<li><strong>NIO</strong>：New IO 同步非阻塞 IO，是传统 IO 的升级，客户端和服务器端通过 Channel（通道）通讯，实现了多路复用。</li>
+<li><strong>AIO</strong>:Asynchronous IO 是 NIO 的升级，也叫 NIO2，实现了异步非堵塞 IO ，异步 IO 的操作基于事件和回调机制。</li>
+</ul>
+
+        <h2 id="18-files-的常用方法都有哪些？">
+          <a href="#18-files-的常用方法都有哪些？" class="heading-link"><i class="fas fa-link"></i></a>18.files 的常用方法都有哪些？</h2>
+      <ul>
+<li>File.exists()：检查文件路径是否存在？</li>
+<li>File.createFile()：创建文件</li>
+<li>File.createDirectory()：创建文件夹</li>
+<li>File.delete()：删除一个文件或目录</li>
+<li>File.move()：移动文件</li>
+<li>File.copy()：复制文件</li>
+<li>File.size()：查看文件个数</li>
+<li>File.read()：读取文件</li>
+<li>File.write()：写入文件</li>
+</ul>
+
+        <h2 id="19-简述-java-集合中有关有序、无序的区别，并分别列出其中的典型">
+          <a href="#19-简述-java-集合中有关有序、无序的区别，并分别列出其中的典型" class="heading-link"><i class="fas fa-link"></i></a>19.简述 java 集合中有关有序、无序的区别，并分别列出其中的典型</h2>
+      <ol>
+<li>集合的有序、无序是指插入元素时，插入的顺序性，也就是先插入的元素优先放在集合的前面部分。</li>
+<li>ArrayList 有序的、HashMap 无序的</li>
+</ol>
+
+        <h2 id="20-简述-spring-的两大特性">
+          <a href="#20-简述-spring-的两大特性" class="heading-link"><i class="fas fa-link"></i></a>20.简述 spring 的两大特性</h2>
+      <ol>
+<li><p>Ioc：控制反转，就是将控制权从程序员交由 spring 容器控制</p>
+<p>例：class A 中要用到 class B 中的对象，一般情况的情况下是在 A 的代码中 new 一个 B 的对象。而使用到DI注入后，只需要在 A 中声明一个私有化的 B 对象就可以了</p>
+</li>
+<li><p>aop：面向切面编程，横向扩展，可以通过动态代理的方式来完成一些重复性高的操作。</p>
+<p>例：日志，事务，权限等</p>
+</li>
+</ol>
+
+        <h2 id="21-什么是接口？">
+          <a href="#21-什么是接口？" class="heading-link"><i class="fas fa-link"></i></a>21.什么是接口？</h2>
+      <p>​    接口就是定义了一系列方法，主要是告诉我们这个方法是做什么的，但是具体怎么做是由他的实现类完成的。</p>
+
+        <h2 id="22-什么是死锁，产生死锁的四个必要条件是什么？">
+          <a href="#22-什么是死锁，产生死锁的四个必要条件是什么？" class="heading-link"><i class="fas fa-link"></i></a>22.什么是死锁，产生死锁的四个必要条件是什么？</h2>
+      <ol>
+<li><p>死锁可以理解为：互相不让步，不放弃，同时需要对方的资源。</p>
+<p>例：两个以上线程都在等待对方执行完毕才能继续往下执行，这样就造成了无限等待，也就成了死锁</p>
+</li>
+<li><p>四个必要条件分别是：</p>
+<ul>
+<li>互斥：一个资源每次只能被一个进程使用</li>
+<li>保持锁并请求锁：一个进程因请求资源而阻塞时，对已经获取到的资源保持不放</li>
+<li>不可抢夺：进程已经获得的资源，在未使用完之前，是不能被强行剥夺的</li>
+<li>循环等待：若干线程形成了一种头尾相接的循环等待资源关系</li>
+</ul>
+</li>
+</ol>
+
+        <h1 id="二、容器">
+          <a href="#二、容器" class="heading-link"><i class="fas fa-link"></i></a>二、容器</h1>
+      
+        <h2 id="1-java-的常用容器都有哪些？">
+          <a href="#1-java-的常用容器都有哪些？" class="heading-link"><i class="fas fa-link"></i></a>1.java 的常用容器都有哪些？</h2>
+      <p>常用容器的图录：</p>
+<p><img src="/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/1.jpg" alt="图片加载失败"></p>
+
+        <h2 id="2-Collection-和-Collections-有什么区别？">
+          <a href="#2-Collection-和-Collections-有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>2.Collection 和 Collections 有什么区别？</h2>
+      <ul>
+<li>java.util.Collection 是一个集合接口。直接继承他的接口有 List 和 Set</li>
+<li>Collections 是一个工具类，提供了一系列静态方法，用于集合中的元素排序，搜索以及线程安全等操作。</li>
+</ul>
+
+        <h2 id="3-List、Set、Map之间的区别是什么？">
+          <a href="#3-List、Set、Map之间的区别是什么？" class="heading-link"><i class="fas fa-link"></i></a>3.List、Set、Map之间的区别是什么？</h2>
+      <div class="table-container"><table>
+<thead>
+<tr>
+<th align="center">比较</th>
+<th align="center">List</th>
+<th align="center">Set</th>
+<th align="center">Map</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">继承接口</td>
+<td align="center">Collection</td>
+<td align="center">Collection</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">常见实现类</td>
+<td align="center">AbstractList（其常用子类有 ArrayList、LinkedList、Vector）</td>
+<td align="center">AbstractMap（其常用子类有 HashSet、LinkedHashSet、TreeSet）</td>
+<td align="center">HashMap、HashTable</td>
+</tr>
+<tr>
+<td align="center">常见方法</td>
+<td align="center">add()、remove()、clear() get()、contains()、size()</td>
+<td align="center">add()、remove()、clear() contains()、size()</td>
+<td align="center">put()、get()、remove() clear()、containsKey() containsValue()、KeySet() values()、size（）</td>
+</tr>
+<tr>
+<td align="center">元素</td>
+<td align="center">可重复</td>
+<td align="center">不可重复（用 equals() 判断）</td>
+<td align="center">不可重复</td>
+</tr>
+<tr>
+<td align="center">顺序</td>
+<td align="center">有序</td>
+<td align="center">无序（实际上是由 HashCode 决定）</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">线程安全</td>
+<td align="center">Vector 线程安全</td>
+<td align="center"></td>
+<td align="center">HashTable 线程安全</td>
+</tr>
+</tbody></table></div>
+
+        <h2 id="4-HashMap-和-HashTable-有什么区别？">
+          <a href="#4-HashMap-和-HashTable-有什么区别？" class="heading-link"><i class="fas fa-link"></i></a>4.HashMap 和 HashTable 有什么区别？</h2>
+      <ul>
+<li>HashMap 去掉了 HashTable 中的 Contains() 方法，但是加上了 ContainsKey()、ContainsValue() 方法。</li>
+<li>HashMap 是同步的（线程安全的），HashTable 是非同步的（线程不安全），所以效率上 HashTable 要高于 HashMap。</li>
+<li>HashMap 允许空键值，而 HashTable 不允许。</li>
+</ul>
+
+        <h1 id="三、数据库（sql）">
+          <a href="#三、数据库（sql）" class="heading-link"><i class="fas fa-link"></i></a>三、数据库（sql）</h1>
+      <p><strong><font color="red">注：本部分sql都已经进行实际测试，所用数据库为 MySQL，如果有用到别的数据库会有红色标注出来。</font></strong></p>
+
+        <h2 id="1-下面有两张表：用户表（Table-User）、考勤表（Table-ATtendance）">
+          <a href="#1-下面有两张表：用户表（Table-User）、考勤表（Table-ATtendance）" class="heading-link"><i class="fas fa-link"></i></a>1.下面有两张表：用户表（Table_User）、考勤表（Table_ATtendance）</h2>
+      <center>用户表（Table_User）</center>
+
+<div class="table-container"><table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Account</th>
+<th align="center">USERNAME</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">liy</td>
+<td align="center">李阳</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">zhangxw</td>
+<td align="center">张晓伟</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">liuh</td>
+<td align="center">刘华</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">yangl</td>
+<td align="center">杨柳</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">zhangl</td>
+<td align="center">张丽</td>
+</tr>
+</tbody></table></div>
+<center>考勤表（Table_ATtendance）</center>
+
+<div class="table-container"><table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">User_ID</th>
+<th align="center">TIME</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2019-05-04 08:53:24</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">2019-05-04 08:55:32</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">2019-05-05 08:20:13</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">2019-05-05 08:55:33</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">2019-05-06 08:57:03</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">2019-05-06 08:52:10</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">4</td>
+<td align="center">2019-06-01 08:20:14</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">2</td>
+<td align="center">2019-05-07 08:45:11</td>
+</tr>
+</tbody></table></div>
+<p><strong>问题一：请用SQL列出每个用户每个月的出勤率</strong></p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.<span class="operator">*</span>,u.USERNAME,CONCAT(ROUND(<span class="built_in">count</span>(<span class="operator">*</span>)<span class="operator">/</span><span class="number">30</span><span class="operator">*</span><span class="number">100</span>,<span class="number">2</span>),<span class="string">&#x27;%&#x27;</span>) <span class="keyword">percent</span> <span class="keyword">from</span> `<span class="number">1</span><span class="operator">-</span>Attendance` a</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">JOIN</span> `<span class="number">1</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">on</span> a.User_ID <span class="operator">=</span> u.ID</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%M&#x27;</span>)</span><br></pre></td></tr></table></div></figure>
+
+
+
+<center>运行结果</center>
+
+<p><img src="/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_1-1.png" alt="图片加载失败"></p>
+<p>本问题没有什么难点，就是基础的 count() 函数与 group by 分组的应用。</p>
+<p>本题运用到的函数：</p>
+<ul>
+<li>**CONCAT()**：用于字符串拼接 CONCAT(str1,str2,str3,…)，返回的结果是拼接后的字符串，如果有一个参数是null 则返回</li>
+<li>**ROUND()**：用于处理小数位保留的问题 ROUND(column_name,decimals)，第一个参数为要进行处理的字段或者数值，第二个参数为保留的位数。</li>
+</ul>
+<p><strong>问题二：请用SQL列出每月出勤的前两名和后两名</strong></p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (</span><br><span class="line">	<span class="keyword">select</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%m&#x27;</span>)<span class="type">time</span>,u.USERNAME,ROUND(<span class="built_in">count</span>(<span class="operator">*</span>)<span class="operator">/</span><span class="number">30</span><span class="operator">*</span><span class="number">100</span>,<span class="number">2</span>) <span class="keyword">percent</span> <span class="keyword">from</span> `<span class="number">1</span><span class="operator">-</span>Attendance` a</span><br><span class="line">	<span class="keyword">left</span> <span class="keyword">JOIN</span> `<span class="number">1</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">on</span> a.User_ID <span class="operator">=</span> u.ID</span><br><span class="line">	<span class="keyword">GROUP</span> <span class="keyword">BY</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%m&#x27;</span>)</span><br><span class="line">	<span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="type">TIME</span></span><br><span class="line">) aa </span><br><span class="line"><span class="keyword">where</span> (</span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> (</span><br><span class="line">		<span class="keyword">select</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%m&#x27;</span>) <span class="type">time</span>,u.USERNAME,ROUND(<span class="built_in">count</span>(<span class="operator">*</span>)<span class="operator">/</span><span class="number">30</span><span class="operator">*</span><span class="number">100</span>,<span class="number">2</span>) <span class="keyword">percent</span> <span class="keyword">from</span> `<span class="number">1</span><span class="operator">-</span>Attendance` a</span><br><span class="line">		<span class="keyword">left</span> <span class="keyword">JOIN</span> `<span class="number">1</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">on</span> a.User_ID <span class="operator">=</span> u.ID</span><br><span class="line">		<span class="keyword">GROUP</span> <span class="keyword">BY</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%m&#x27;</span>)</span><br><span class="line">		<span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="type">TIME</span></span><br><span class="line">	)bb</span><br><span class="line">	<span class="keyword">where</span> bb.time <span class="operator">=</span> aa.time <span class="keyword">and</span> bb.percent <span class="operator">&gt;=</span> aa.percent #获取前两位</span><br><span class="line">)<span class="operator">&lt;=</span><span class="number">2</span></span><br><span class="line"><span class="keyword">OR</span> (</span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> (</span><br><span class="line">		<span class="keyword">select</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%m&#x27;</span>) <span class="type">time</span>,u.USERNAME,ROUND(<span class="built_in">count</span>(<span class="operator">*</span>)<span class="operator">/</span><span class="number">30</span><span class="operator">*</span><span class="number">100</span>,<span class="number">2</span>) <span class="keyword">percent</span> <span class="keyword">from</span> `<span class="number">1</span><span class="operator">-</span>Attendance` a</span><br><span class="line">		<span class="keyword">left</span> <span class="keyword">JOIN</span> `<span class="number">1</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">on</span> a.User_ID <span class="operator">=</span> u.ID</span><br><span class="line">		<span class="keyword">GROUP</span> <span class="keyword">BY</span> a.User_ID,DATE_FORMAT(a.TIME,<span class="string">&#x27;%m&#x27;</span>)</span><br><span class="line">		<span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="type">TIME</span></span><br><span class="line">	)bb</span><br><span class="line">	<span class="keyword">where</span> bb.time <span class="operator">=</span> aa.time <span class="keyword">and</span> bb.percent <span class="operator">&lt;=</span> aa.percent #获取后两位</span><br><span class="line">)<span class="operator">&lt;=</span><span class="number">2</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> aa.time <span class="keyword">asc</span>,<span class="keyword">percent</span> <span class="keyword">desc</span></span><br></pre></td></tr></table></div></figure>
+
+
+
+<center>运行结果</center>
+
+<p><img src="/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_1-2.png" alt="图片加载失败"></p>
+<p>本人认为这个问题还是有点绕的，估计是本人基础太差的问题。而且应该还有更简单的方式解决这个问题，但是我还不知道@~@。请包涵。。。。</p>
+<p>这条 <strong>SQL</strong> 编写的思路为：</p>
+<p>使用自连接进行比较，就是分为A、B两个表。加了where后的子查询条件后，就想象成在 A 表后面多了一列count(*) ，bb.percent &gt;= aa.percent，这种比较就是在 A 表中排名越靠前的 count(*) 的值就越小。同理取后两名就是与取前两名相反。 </p>
+
+        <h2 id="2-下面有两张表：用户表（Table-User）、部门表（Table-Department）">
+          <a href="#2-下面有两张表：用户表（Table-User）、部门表（Table-Department）" class="heading-link"><i class="fas fa-link"></i></a>2.下面有两张表：用户表（Table_User）、部门表（Table_Department）</h2>
+      <center>用户表（Table_User）</center>
+
+<div class="table-container"><table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">ACCOUNT</th>
+<th align="center">USERNAME</th>
+<th align="center">DEPTID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">liy</td>
+<td align="center">李阳</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">zhangxw</td>
+<td align="center">张晓伟</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">liuh</td>
+<td align="center">刘华</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">yangl</td>
+<td align="center">杨柳</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">zhangl</td>
+<td align="center">张丽</td>
+<td align="center">4</td>
+</tr>
+</tbody></table></div>
+<center>部门表（Table_Department）</center>
+
+<div class="table-container"><table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">DEPTNAME</th>
+<th align="center">PARENTID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">环卫处</td>
+<td align="center">null</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">考核科</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">监督科</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">检查科</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">接待办</td>
+<td align="center">3</td>
+</tr>
+</tbody></table></div>
+<p><strong><font color="red">函数参考地址：</font></strong><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.cnblogs.com/zhizhao/p/9442799.html">https://www.cnblogs.com/zhizhao/p/9442799.html</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><strong>问题一：请用 SQL 列出“环卫处”下属所有部门及各自成员数量</strong></p>
+<p>根据问题理解为两种状况：</p>
+<p>1）只查询出 “环卫处” 子级部门，就是向下一级。</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> p.ID,p.DEPTNAME,c.DEPTNAME,c.PARENTID,</span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> c.ID) deptcount</span><br><span class="line"><span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` p</span><br><span class="line"><span class="keyword">join</span> `<span class="number">2</span><span class="operator">-</span>Department` c <span class="keyword">on</span> p.ID <span class="operator">=</span> c.PARENTID</span><br><span class="line"><span class="keyword">where</span> p.DEPTNAME <span class="operator">=</span> <span class="string">&#x27;环卫处&#x27;</span></span><br></pre></td></tr></table></div></figure>
+
+
+
+<center>运行结果</center>
+
+<p><img src="/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_2-1.1.png" alt="图片加载失败"></p>
+<p>这里就是简单自连接查询，基础语句。</p>
+<p>2）查询出 “环卫处” 所有自己部门（需自己创建递归函数）</p>
+<center>创建递归函数</center>
+
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">delimiter <span class="operator">/</span><span class="operator">/</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> IF <span class="keyword">EXISTS</span> `<span class="number">2</span><span class="operator">-</span>getChildList`;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> `<span class="number">2</span><span class="operator">-</span>getChildList`(rootId <span class="type">INT</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="type">VARCHAR</span>(<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span> sTemd <span class="type">VARCHAR</span>(<span class="number">1000</span>);</span><br><span class="line">	<span class="keyword">DECLARE</span> sTemdChd <span class="type">VARCHAR</span>(<span class="number">1000</span>);</span><br><span class="line">	<span class="keyword">SET</span> sTemd <span class="operator">=</span> <span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	<span class="keyword">Set</span> sTemdChd <span class="operator">=</span> <span class="built_in">CAST</span>(rootId <span class="keyword">AS</span> <span class="type">CHAR</span>);</span><br><span class="line">	</span><br><span class="line">	WHILE sTemdChd <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span> DO</span><br><span class="line">		<span class="keyword">set</span> sTemd <span class="operator">=</span> CONCAT(sTemd,<span class="string">&#x27;,&#x27;</span>,sTemdChd);</span><br><span class="line">		<span class="keyword">select</span> GROUP_CONCAT(id) <span class="keyword">INTO</span> sTemdChd <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` <span class="keyword">where</span> FIND_IN_SET(PARENTID,sTemdChd)<span class="operator">&gt;</span><span class="number">0</span>;</span><br><span class="line">		<span class="keyword">END</span> WHILE;</span><br><span class="line">	<span class="keyword">RETURN</span> sTemd;</span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></div></figure>
+
+
+
+<center>查询 SQL</center>
+
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> ,</span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line"><span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>));</span><br></pre></td></tr></table></div></figure>
+
+
+
+<center>查询结果</center>
+
+<p><img src="/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_2-1.2.png" alt="图片加载失败"></p>
+<p>这个问题正常来说第二种状况才是对于本题目正确的理解。</p>
+<p>我认为这里的难点在于这个递归函数（其实理解之后你会发现这个函数是真的没什么技术含量的，只不过我平常涉及数据库的还是比较少，所以感觉有点难度，但是理解之后就好了。），其实这个递归函数 copy 走改一改就可以使用，但是如果你想提升自己，以防以后遇到一点都说不上来。还是建议把这个函数理解透。</p>
+<p>本题运用到的函数：</p>
+<ul>
+<li><p>**GROUP_CONCAT(column_name)**：多行数据合并</p>
+</li>
+<li><p>**FIND_IN_SET(param1,param2)**：查询 para2 中包含 param1 的结果，返回 null 或者 记录。详细可查看：<span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.cnblogs.com/lixinjun8080/p/11246632.html">https://www.cnblogs.com/lixinjun8080/p/11246632.html</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</li>
+</ul>
+<p>其实理解了函数中的那个查询语句，整个函数也就差不多了。</p>
+<p><strong>问题二：请用 SQL 列出“环卫处”下属所有部门中成员数量最多的两个部门</strong></p>
+<p>其实这个问题我个人理解也是两种：</p>
+<p>1）不考虑并列情况，这种就很简单直接在问题一的基础上增加 order by 排序和 limit 就可以了。所以就不列出此种情况了。</p>
+<p>2）考虑并列的情况，我个人认为应该把并列的情况也考虑进去。</p>
+<center>查询 SQL </center>
+
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (</span><br><span class="line">	<span class="keyword">select</span> d.<span class="operator">*</span> ,</span><br><span class="line">	(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line">	<span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>))</span><br><span class="line">) b</span><br><span class="line"><span class="keyword">where</span> FIND_IN_SET(</span><br><span class="line">	b.deptcount,</span><br><span class="line">    (</span><br><span class="line">    	<span class="keyword">select</span> GROUP_CONCAT(deptcount) <span class="keyword">from</span> </span><br><span class="line">        (</span><br><span class="line">        	<span class="keyword">select</span> d.<span class="operator">*</span> ,</span><br><span class="line">			(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line">			<span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>))</span><br><span class="line">			<span class="keyword">GROUP</span> <span class="keyword">BY</span> deptcount</span><br><span class="line">			<span class="keyword">ORDER</span> <span class="keyword">BY</span> deptcount <span class="keyword">desc</span></span><br><span class="line">			LIMIT <span class="number">2</span></span><br><span class="line">        )a</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+
+
+<center>运行结果</center>
+
+<p><img src="/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/database_sql_2-2.png" alt="图片加载失败"></p>
+<p>其实这条sql难度也不高，只要你一步一步来就可以了。</p>
+<p>大概思路如下：</p>
+<ol>
+<li><p>将 “问题一” 中的查询语句增加分组，排序，并用时用 limit，获取到前两名。</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> d.<span class="operator">*</span> ,</span><br><span class="line">(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line"><span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> deptcount</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> deptcount <span class="keyword">desc</span></span><br><span class="line">LIMIT <span class="number">2</span></span><br></pre></td></tr></table></div></figure>
+
+
+</li>
+<li><p>将 1 中查询出来的结果集作为一张临时表查询，使用 group_concat() 函数将 1 中的的人数合并起来。其实就是将前两名的人数查询出来，合并成 2,1 这种形式。</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> GROUP_CONCAT(deptcount) <span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line">    <span class="keyword">select</span> d.<span class="operator">*</span> ,</span><br><span class="line">	(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line">	<span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">GROUP</span> <span class="keyword">BY</span> deptcount</span><br><span class="line">	<span class="keyword">ORDER</span> <span class="keyword">BY</span> deptcount <span class="keyword">desc</span></span><br><span class="line">	LIMIT <span class="number">2</span></span><br><span class="line">)a</span><br></pre></td></tr></table></div></figure>
+
+
+</li>
+<li><p>以 “问题一” 中的查询的结果集作为临时表，条件使用 FIND_IN_SET() 函数进行控制。FIND_IN_SET() 函数函数中的参数就是：主表中的人数、和 2 中的语句。到此本问题就结束了</p>
+<figure class="highlight sql"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (</span><br><span class="line">	<span class="keyword">select</span> d.<span class="operator">*</span> ,</span><br><span class="line">	(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line">	<span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>))</span><br><span class="line">) b</span><br><span class="line"><span class="keyword">where</span> FIND_IN_SET(</span><br><span class="line">	b.deptcount,</span><br><span class="line">    (</span><br><span class="line">    	<span class="keyword">select</span> GROUP_CONCAT(deptcount) <span class="keyword">from</span> </span><br><span class="line">        (</span><br><span class="line">        	<span class="keyword">select</span> d.<span class="operator">*</span> ,</span><br><span class="line">			(<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span><span class="keyword">User</span>` u <span class="keyword">where</span> u.DEPTID <span class="operator">=</span> d.ID) deptcount</span><br><span class="line">			<span class="keyword">from</span> `<span class="number">2</span><span class="operator">-</span>Department` d <span class="keyword">where</span> FIND_IN_SET(id,`<span class="number">2</span><span class="operator">-</span>getChildList`(<span class="number">1</span>))</span><br><span class="line">			<span class="keyword">GROUP</span> <span class="keyword">BY</span> deptcount</span><br><span class="line">			<span class="keyword">ORDER</span> <span class="keyword">BY</span> deptcount <span class="keyword">desc</span></span><br><span class="line">			LIMIT <span class="number">2</span></span><br><span class="line">        )a</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+
+
+</li>
+</ol>
+<p><font color="red">此处运用到的函数都在 “问题一” 中解释过。如果有疑问就看看 “问题一”  中的解释吧。</font></p>
+<p><strong>未完待续</strong></p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://example.com">孙宇</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/">http://example.com/2020/07/16/%E9%9D%A2%E8%AF%95%E9%A2%98/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://example.com/tags/Java-%E9%9D%A2%E8%AF%95/">Java 面试</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/07/16/Ubuntu%E5%AE%89%E8%A3%85jdk1.8/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Ubuntu安装jdk1.8</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/07/16/BlogOneDay/"><span class="paginator-prev__text">开始博客的第一天</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81Java%E5%9F%BA%E7%A1%80"><span class="toc-text">
+          一、Java基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-JDK-%E5%92%8C-JRE-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          1.JDK 和 JRE 有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%92%8C-equals-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          2.&#x3D;&#x3D; 和 equals 的区别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84-hashCode-%E7%9B%B8%E5%90%8C%EF%BC%8C%E5%88%99-equals-%E4%B9%9F%E4%B8%80%E5%AE%9A%E4%B8%BA-true%EF%BC%8C%E5%AF%B9%E5%90%97%EF%BC%9F"><span class="toc-text">
+          3.两个对象的 hashCode()相同，则 equals()也一定为 true，对吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-final-%E5%9C%A8-java-%E4%B8%AD%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">
+          4.final 在 java 中有什么作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-java-%E4%B8%AD%E7%9A%84-Math-round-1-5-%E7%AD%89%E4%BA%8E%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-text">
+          5.java 中的 Math.round(-1.5) 等于多少？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-String-%E5%B1%9E%E4%BA%8E%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%90%97%EF%BC%9F"><span class="toc-text">
+          6.String 属于基础的数据类型吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-java-%E4%B8%AD%E6%93%8D%E4%BD%9C%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%B1%BB%EF%BC%9F%E5%AE%83%E4%BB%AC%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          7.java 中操作字符串都有哪些类？它们之间有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-String-str-%E2%80%9Ci%E2%80%9D-%E4%B8%8E-String-str-new-String-%E2%80%9Ci%E2%80%9D-%E4%B8%80%E6%A0%B7%E5%90%97%EF%BC%9F"><span class="toc-text">
+          8.String str &#x3D; “i” 与 String str &#x3D; new String(“i”) 一样吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%A6%82%E4%BD%95%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%8D%E8%BD%AC"><span class="toc-text">
+          9.如何将字符串反转</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-String%E7%B1%BB%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          10.String类的常用方法都有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E4%BB%80%E4%B9%88%E6%98%AF%E6%8A%BD%E8%B1%A1%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%9A%E6%80%81%EF%BC%9F"><span class="toc-text">
+          11.什么是抽象？什么是多态？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%BF%85%E9%A1%BB%E6%9C%89%E6%8A%BD%E8%B1%A1%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="toc-text">
+          12.抽象类必须有抽象方法吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E6%99%AE%E9%80%9A%E7%B1%BB%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          13.普通类和抽象类有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E8%83%BD%E4%BD%BF%E7%94%A8-final-%E4%BF%AE%E9%A5%B0%E5%90%97%EF%BC%9F"><span class="toc-text">
+          14.抽象类能使用 final 修饰吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          15.接口和抽象类有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-Java%E4%B8%AD%E7%9A%84-IO-%E6%B5%81%E5%88%86%E4%B8%BA%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F"><span class="toc-text">
+          16.Java中的 IO 流分为哪几种？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-BIO%E3%80%81NIO%E3%80%81AIO%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          17.BIO、NIO、AIO有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-files-%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          18.files 的常用方法都有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#19-%E7%AE%80%E8%BF%B0-java-%E9%9B%86%E5%90%88%E4%B8%AD%E6%9C%89%E5%85%B3%E6%9C%89%E5%BA%8F%E3%80%81%E6%97%A0%E5%BA%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%B9%B6%E5%88%86%E5%88%AB%E5%88%97%E5%87%BA%E5%85%B6%E4%B8%AD%E7%9A%84%E5%85%B8%E5%9E%8B"><span class="toc-text">
+          19.简述 java 集合中有关有序、无序的区别，并分别列出其中的典型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#20-%E7%AE%80%E8%BF%B0-spring-%E7%9A%84%E4%B8%A4%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="toc-text">
+          20.简述 spring 的两大特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%A5%E5%8F%A3%EF%BC%9F"><span class="toc-text">
+          21.什么是接口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%BB%E9%94%81%EF%BC%8C%E4%BA%A7%E7%94%9F%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          22.什么是死锁，产生死锁的四个必要条件是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%B9%E5%99%A8"><span class="toc-text">
+          二、容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-java-%E7%9A%84%E5%B8%B8%E7%94%A8%E5%AE%B9%E5%99%A8%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">
+          1.java 的常用容器都有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Collection-%E5%92%8C-Collections-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          2.Collection 和 Collections 有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-List%E3%80%81Set%E3%80%81Map%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">
+          3.List、Set、Map之间的区别是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-HashMap-%E5%92%8C-HashTable-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">
+          4.HashMap 和 HashTable 有什么区别？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88sql%EF%BC%89"><span class="toc-text">
+          三、数据库（sql）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%8B%E9%9D%A2%E6%9C%89%E4%B8%A4%E5%BC%A0%E8%A1%A8%EF%BC%9A%E7%94%A8%E6%88%B7%E8%A1%A8%EF%BC%88Table-User%EF%BC%89%E3%80%81%E8%80%83%E5%8B%A4%E8%A1%A8%EF%BC%88Table-ATtendance%EF%BC%89"><span class="toc-text">
+          1.下面有两张表：用户表（Table_User）、考勤表（Table_ATtendance）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%8B%E9%9D%A2%E6%9C%89%E4%B8%A4%E5%BC%A0%E8%A1%A8%EF%BC%9A%E7%94%A8%E6%88%B7%E8%A1%A8%EF%BC%88Table-User%EF%BC%89%E3%80%81%E9%83%A8%E9%97%A8%E8%A1%A8%EF%BC%88Table-Department%EF%BC%89"><span class="toc-text">
+          2.下面有两张表：用户表（Table_User）、部门表（Table_Department）</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/img_head.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">悠闲时光</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>孙宇</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.2</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.0-rc.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js" color="1,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '6ca09daabba4f7147cee',
+    clientSecret: 'ded593f333a1a88bfb1a5e39e8227c3afc71e08f',
+    repo: 'sunyubk.github.io',
+    owner: 'sunyubk',
+    admin: ['sunyubk'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body></html>

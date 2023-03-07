@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="renderer" content="webkit"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.0.0-rc.0" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.0.0-rc.0" type="image/png" sizes="32x32"><meta name="description" content="这篇博客主要讲的是如何进行 Hexo&amp;github 博客迁移，此处应用场景为换电脑后进行迁移">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo&amp;github博客迁移（Windows迁移至Ubuntu）">
+<meta property="og:url" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/index.html">
+<meta property="og:site_name" content="孙宇的博客">
+<meta property="og:description" content="这篇博客主要讲的是如何进行 Hexo&amp;github 博客迁移，此处应用场景为换电脑后进行迁移">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_1.png">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_3.png">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_2.png">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_4.png">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_5.png">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_6.png">
+<meta property="og:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_7.png">
+<meta property="article:published_time" content="2020-08-01T07:43:51.000Z">
+<meta property="article:modified_time" content="2023-02-21T18:55:17.197Z">
+<meta property="article:author" content="孙宇">
+<meta property="article:tag" content="个人博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_1.png"><meta name="keywords" content="孙宇, 孙宇的博客"><meta name="description" content=""><title>Hexo&amp;github博客迁移（Windows迁移至Ubuntu） | 孙宇的博客</title><link ref="canonical" href="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: {"switchPost":true},
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.2"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">孙宇的博客</div><div class="header-banner-info__subtitle">博客小白，正在学习中。如果有更好的意见欢迎反馈。</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Hexo&amp;github博客迁移（Windows迁移至Ubuntu）</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-08-01</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2023-02-22</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1.6k</span></span></div></header><div class="post-body"><p>　　这篇博客主要讲的是如何进行 <strong>Hexo&amp;github</strong> 博客迁移，此处应用场景为换电脑后进行迁移</p>
+<span id="more"></span>
+
+<p>　　由于本人电脑有两块固态，所有在空间比较小的固态上装了一个 <strong>Ubuntu</strong> 系统，安装之后，进行一些开发应用，在安装之后有一些使用的问题想要记录一下，所以决定迁移个人博客到这个系统上。</p>
+<p>　　好了，废话不多说，接下来就是本人实际的迁移过程：</p>
+
+        <h2 id="1-迁移前环境准备">
+          <a href="#1-迁移前环境准备" class="heading-link"><i class="fas fa-link"></i></a>1.迁移前环境准备</h2>
+      <p>在新系统上安装如下环境：</p>
+<ol>
+<li><p><strong>安装git：</strong>此处参考<span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.cnblogs.com/lxm20145215----/p/5905765.html">Ubuntu下git的安装及使用</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>即可</p>
+</li>
+<li><p><strong>安装Nodejs：</strong>此处参考本人博客中的<span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://sunyubk.github.io/2020/07/16/Ubuntu%E5%AE%89%E8%A3%85NodeJS/">Ubuntu安装Nodejs</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</li>
+<li><p><strong>安装Hexo：</strong>此处参考本人博客中的<span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://sunyubk.github.io/2020/08/01/Ubuntu%E5%AE%89%E8%A3%85Hexo/">Ubuntu安装Hexo</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</li>
+</ol>
+
+        <h2 id="2-将博客文件存至github">
+          <a href="#2-将博客文件存至github" class="heading-link"><i class="fas fa-link"></i></a>2.将博客文件存至github</h2>
+      
+        <h3 id="1）在github上创建仓库用于存放博客文件">
+          <a href="#1）在github上创建仓库用于存放博客文件" class="heading-link"><i class="fas fa-link"></i></a>1）在github上创建仓库用于存放博客文件</h3>
+      <p>如下图，点击 New repository 创建仓库，blog_all就是本人存放迁移博客的的仓库，当然，这个仓库是私人的。</p>
+<p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_1.png" alt="图片加载失败"></p>
+
+        <h3 id="2）上传博客文件至github仓库">
+          <a href="#2）上传博客文件至github仓库" class="heading-link"><i class="fas fa-link"></i></a>2）上传博客文件至github仓库</h3>
+      <p>将原系统中博客目录下的文件都上传至 <strong>github</strong> 仓库中，因为有一些文件会使上传失败，所以本人的处理方式是：</p>
+<p>在本地存放博客文件的文件夹同级创建用于存放可能会干扰上传的文件，本人移动的文件都有：</p>
+<ol>
+<li>博客根目录下的：.gitignore 文件</li>
+<li>.deploy_git文件夹下的 .git 文件夹</li>
+<li>主题文件夹下的 .git 文件夹</li>
+</ol>
+<p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_3.png" alt="图片加载失败">　　</p>
+<p>下图为本人上传的后的仓库：</p>
+<p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_2.png" alt="图片加载失败"></p>
+
+        <h2 id="3-将github仓库中的文件clone至新系统中">
+          <a href="#3-将github仓库中的文件clone至新系统中" class="heading-link"><i class="fas fa-link"></i></a>3.将github仓库中的文件clone至新系统中</h2>
+      
+        <h3 id="1）在本地创建用于存放博客文件的目录">
+          <a href="#1）在本地创建用于存放博客文件的目录" class="heading-link"><i class="fas fa-link"></i></a>1）在本地创建用于存放博客文件的目录</h3>
+      <p>下图中的 <strong>blog_all</strong> 就是博客的目录，<strong>git_config</strong> 是存放一些可能会烦扰上传的文件</p>
+<p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_4.png" alt="图片加载失败"></p>
+
+        <h3 id="2）至此博客迁移就已经完成了">
+          <a href="#2）至此博客迁移就已经完成了" class="heading-link"><i class="fas fa-link"></i></a>2）至此博客迁移就已经完成了</h3>
+      <p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_5.png" alt="图片加载失败"></p>
+
+        <h3 id="3）检验博客是否可以成功访问">
+          <a href="#3）检验博客是否可以成功访问" class="heading-link"><i class="fas fa-link"></i></a>3）检验博客是否可以成功访问</h3>
+      <p>在 <strong>blog_all</strong> 文件夹下执行一下命令后访问，localhost:4000：</p>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s -g</span><br></pre></td></tr></table></div></figure>
+
+<p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_6.png" alt="图片加载失败"></p>
+
+        <h2 id="4-编写shell脚本用于更新博客迁移的仓库，为以后博客迁移做准备">
+          <a href="#4-编写shell脚本用于更新博客迁移的仓库，为以后博客迁移做准备" class="heading-link"><i class="fas fa-link"></i></a>4.编写shell脚本用于更新博客迁移的仓库，为以后博客迁移做准备</h2>
+      <p><font color="red">注：以下命令中的目录根据个人不同，请注意修改。</font></p>
+
+        <h3 id="1）创建存放脚本的目录">
+          <a href="#1）创建存放脚本的目录" class="heading-link"><i class="fas fa-link"></i></a>1）创建存放脚本的目录</h3>
+      <p>下图为目录结构（根据个人喜好自己配置即可）：</p>
+<p><strong>shell</strong> 目录下的update_blog.sh才是最终的执行文件，<strong>libs</strong> 下的文件执行供其他脚本调用的脚本</p>
+<p><img src="/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/move_blog_7.png" alt="图片加载失败"></p>
+
+        <h3 id="2）编写-shell-脚本">
+          <a href="#2）编写-shell-脚本" class="heading-link"><i class="fas fa-link"></i></a>2）编写 shell 脚本</h3>
+      <p>此处分为四步进行：</p>
+<ol>
+<li>将可能会干扰上传的文件移动到暂存文件夹中</li>
+<li>使用 <strong>git</strong> 命令将文件上传</li>
+<li>上传过后，再将暂存文件夹中的文件移动回原目录</li>
+<li>创建日志文件，用于记录什么时间更新过</li>
+</ol>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">获取当前时间用于提交描述使用</span></span><br><span class="line">time=$(date &quot;+%Y-%m-%d %H:%M:%S&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">已下命令为移动一些配置文件</span></span><br><span class="line">echo &quot;1.移动 .deploy_git 下的 .git 文件夹到相应的博客配置文件暂存文件夹中&quot;</span><br><span class="line">sudo mv /usr/Environment/Hexo/blog_all/.deploy_git/.git /usr/Environment/Hexo/git_config/.deploy_git/</span><br><span class="line"></span><br><span class="line">echo &quot;2.移动博客文件根目录下的 .gitignore 到相应的博客配置文件暂存文件夹中&quot;</span><br><span class="line">sudo mv /usr/Environment/Hexo/blog_all/.gitignore /usr/Environment/Hexo/git_config/blog_git/</span><br><span class="line"></span><br><span class="line">echo &quot;3.移动博客主题文件夹下的 .git 文件夹到相应的博客配置文件暂存文件夹中&quot;</span><br><span class="line">sudo mv /usr/Environment/Hexo/blog_all/themes/stun/.git /usr/Environment/Hexo/git_config/themes_git/stun/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">以下命令为将本地改动提交至远程库</span></span><br><span class="line">echo &quot;4.执行 git add 跟踪命令&quot;</span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line">echo &quot;5.执行 git commit 命令将暂存区的改动提交至本地的版本库&quot;</span><br><span class="line">git commit -m &quot;更新于：$&#123;time&#125;&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;6.执行 git push 命令将本地库推送至远程库&quot;</span><br><span class="line">git push</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">以下命令为将第一步中移动的配置文件移动回原位</span></span><br><span class="line">echo &quot;7.移动 .deploy_git 下的 .git 文件夹到相应的博客配置文件暂存文件夹中&quot;</span><br><span class="line">sudo mv /usr/Environment/Hexo/git_config/.deploy_git/.git /usr/Environment/Hexo/blog_all/.deploy_git/</span><br><span class="line"></span><br><span class="line">echo &quot;8.移动博客文件根目录下的 .gitignore 到相应的博客配置文件暂存文件夹中&quot;</span><br><span class="line">sudo mv /usr/Environment/Hexo/git_config/blog_git/.gitignore /usr/Environment/Hexo/blog_all/</span><br><span class="line"></span><br><span class="line">echo &quot;9.移动博客主题文件夹下的 .git 文件夹到相应的博客配置文件暂存文件夹中&quot;</span><br><span class="line">sudo mv /usr/Environment/Hexo/git_config/themes_git/stun/.git  /usr/Environment/Hexo/blog_all/themes/stun/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">写入更新日志</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">判断文件是否存在不存在、创建文件并输入内容</span></span><br><span class="line">file=&quot;/usr/Environment/Hexo/update_blog.log&quot;</span><br><span class="line"></span><br><span class="line">if [ ! -f  $file ];then </span><br><span class="line">	echo &quot;更新于：$&#123;time&#125;&quot; &gt;&gt; $file</span><br><span class="line">else</span><br><span class="line"><span class="meta prompt_">	# </span><span class="language-bash"><span class="built_in">cat</span> <span class="variable">$file</span></span></span><br><span class="line">	echo &quot;更新于：$&#123;time&#125;&quot; &gt;&gt; $file</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo &quot;新完成，日志写入完成&quot;</span><br></pre></td></tr></table></div></figure>
+
+<p>以上脚本已经可以使用，但是需要在root用户下。</p>
+
+        <h3 id="3）创建-Expect-脚本用于切换登录用户">
+          <a href="#3）创建-Expect-脚本用于切换登录用户" class="heading-link"><i class="fas fa-link"></i></a>3）创建 Expect 脚本用于切换登录用户</h3>
+      <ol>
+<li><p>安装 <strong>Expect、Tcl</strong>。此处参考本人博客中的<a href>Ubuntuan安装Expect&amp;Tcl</a></p>
+</li>
+<li><p>编写 <strong>Expect</strong> 脚本</p>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spawn sudo su root</span><br><span class="line">expect &quot;密码：&quot; &#123;send &quot;.\r&quot; &#125;</span><br><span class="line">expect &quot;*#&quot; &#123;send &quot;cd /usr/Environment/Hexo/blog_all\r&quot;&#125;</span><br><span class="line">expect &quot;blog_all*&quot; &#123;send &quot;sh /usr/Environment/Scripts/Shell/libs/shell_update_blog.sh\r&quot;&#125;</span><br><span class="line">interact</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p>由于本人太懒，不想没有都输入 expect XXX，所以又写了一个调用 <strong>Expect</strong> 脚本的 <strong>shell</strong> 脚本</p>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expect /usr/Environment/Scripts/Expect/expect_update_blog.sh</span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ol>
+<p>至此，更新脚本编写完成。</p>
+
+        <h2 id="5-配置-etc-profile-文件-使脚本在任意目录都可以执行">
+          <a href="#5-配置-etc-profile-文件-使脚本在任意目录都可以执行" class="heading-link"><i class="fas fa-link"></i></a>5.配置 /etc/profile 文件 使脚本在任意目录都可以执行</h2>
+      <ol>
+<li><p>在/etc/profile 文件末尾添加如下配置：</p>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export SHELL_HOME=/usr/Environment/Scripts/Shell	#目录根据个人不同进行修改</span><br><span class="line">export PATH=$SHELL_HOME:$PATH</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p>执行以下命令使配置文件生效：</p>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></div></figure>
+
+<p>现在其实就已经可以在任意目录执行指定目录中的脚本文件了，但是重启终端之后就不行了，也许是个人电脑问题，但是还是建议进行下一步配置。</p>
+</li>
+<li><p>配置 ~/.bashrc 文件，在文件末尾添加第二步执行的命令。</p>
+</li>
+</ol>
+<p>至此，脚本就配置好了。</p>
+<hr>
+<p>　　好了，到这里本篇文章就结束，更新完博客之后可以顺便执行一下脚本，将博客文件上传至 <strong>github</strong> 仓库中，用于以后迁移，或者当个以防万一的备份。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://example.com">孙宇</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/">http://example.com/2020/08/01/Hexo-github%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%EF%BC%88Windows%E8%BF%81%E7%A7%BB%E8%87%B3Ubuntu%EF%BC%89/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://example.com/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">个人博客</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/08/03/Ubuntu%E5%AE%89%E8%A3%85Mysql5.7/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Ubuntu安装Myslq5.7</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/08/01/Ubuntuan%E5%AE%89%E8%A3%85Expect-Tcl/"><span class="paginator-prev__text">Ubuntuan安装Expect&amp;Tcl</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%BF%81%E7%A7%BB%E5%89%8D%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">
+          1.迁移前环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B0%86%E5%8D%9A%E5%AE%A2%E6%96%87%E4%BB%B6%E5%AD%98%E8%87%B3github"><span class="toc-text">
+          2.将博客文件存至github</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%9C%A8github%E4%B8%8A%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93%E7%94%A8%E4%BA%8E%E5%AD%98%E6%94%BE%E5%8D%9A%E5%AE%A2%E6%96%87%E4%BB%B6"><span class="toc-text">
+          1）在github上创建仓库用于存放博客文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E4%B8%8A%E4%BC%A0%E5%8D%9A%E5%AE%A2%E6%96%87%E4%BB%B6%E8%87%B3github%E4%BB%93%E5%BA%93"><span class="toc-text">
+          2）上传博客文件至github仓库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B0%86github%E4%BB%93%E5%BA%93%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6clone%E8%87%B3%E6%96%B0%E7%B3%BB%E7%BB%9F%E4%B8%AD"><span class="toc-text">
+          3.将github仓库中的文件clone至新系统中</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BA%E7%94%A8%E4%BA%8E%E5%AD%98%E6%94%BE%E5%8D%9A%E5%AE%A2%E6%96%87%E4%BB%B6%E7%9A%84%E7%9B%AE%E5%BD%95"><span class="toc-text">
+          1）在本地创建用于存放博客文件的目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E8%87%B3%E6%AD%A4%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E5%B0%B1%E5%B7%B2%E7%BB%8F%E5%AE%8C%E6%88%90%E4%BA%86"><span class="toc-text">
+          2）至此博客迁移就已经完成了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%89%E6%A3%80%E9%AA%8C%E5%8D%9A%E5%AE%A2%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E6%88%90%E5%8A%9F%E8%AE%BF%E9%97%AE"><span class="toc-text">
+          3）检验博客是否可以成功访问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%96%E5%86%99shell%E8%84%9A%E6%9C%AC%E7%94%A8%E4%BA%8E%E6%9B%B4%E6%96%B0%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E7%9A%84%E4%BB%93%E5%BA%93%EF%BC%8C%E4%B8%BA%E4%BB%A5%E5%90%8E%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB%E5%81%9A%E5%87%86%E5%A4%87"><span class="toc-text">
+          4.编写shell脚本用于更新博客迁移的仓库，为以后博客迁移做准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%88%9B%E5%BB%BA%E5%AD%98%E6%94%BE%E8%84%9A%E6%9C%AC%E7%9A%84%E7%9B%AE%E5%BD%95"><span class="toc-text">
+          1）创建存放脚本的目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%BC%89%E7%BC%96%E5%86%99-shell-%E8%84%9A%E6%9C%AC"><span class="toc-text">
+          2）编写 shell 脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%BC%89%E5%88%9B%E5%BB%BA-Expect-%E8%84%9A%E6%9C%AC%E7%94%A8%E4%BA%8E%E5%88%87%E6%8D%A2%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7"><span class="toc-text">
+          3）创建 Expect 脚本用于切换登录用户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%85%8D%E7%BD%AE-etc-profile-%E6%96%87%E4%BB%B6-%E4%BD%BF%E8%84%9A%E6%9C%AC%E5%9C%A8%E4%BB%BB%E6%84%8F%E7%9B%AE%E5%BD%95%E9%83%BD%E5%8F%AF%E4%BB%A5%E6%89%A7%E8%A1%8C"><span class="toc-text">
+          5.配置 &#x2F;etc&#x2F;profile 文件 使脚本在任意目录都可以执行</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/img_head.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">悠闲时光</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">14</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>孙宇</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.4.2</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.0-rc.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js" color="1,0,0" opacity="0.6" count="99" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '6ca09daabba4f7147cee',
+    clientSecret: 'ded593f333a1a88bfb1a5e39e8227c3afc71e08f',
+    repo: 'sunyubk.github.io',
+    owner: 'sunyubk',
+    admin: ['sunyubk'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"log":false});</script></body></html>
